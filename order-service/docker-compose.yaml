@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  order-db:
+    image: postgres:15.3-alpine3.18
+    container_name: order-db
+    environment:
+      POSTGRES_DB: order-db
+      POSTGRES_USER: met
+      POSTGRES_PASSWORD: met
+    ports:
+      - "5433:5432"
+
+  inventory-db:
+    image: postgres:15.3-alpine3.18
+    container_name: inventory-db
+    environment:
+      POSTGRES_DB: inventory-db
+      POSTGRES_USER: met
+      POSTGRES_PASSWORD: met
+    ports:
+      - "5434:5432"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=met
+      - RABBITMQ_DEFAULT_PASS=met
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq_net
+
+networks:
+  rabbitmq_net:
+    driver: bridge

@@ -1,0 +1,29 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8082
+
+spring:
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5434/inventory-db}
+    username: ${POSTGRES_USER:met}
+    password: ${POSTGRES_PASSWORD:met}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    baseline-on-migrate: true
+    table: 'schema_history'
+    validate-migration-naming: true
+    out-of-order: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: met
+    password: met

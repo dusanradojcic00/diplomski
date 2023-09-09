@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  order-db:
+    image: postgres:15.3-alpine3.18
+    container_name: met-db
+    volumes:
+      - ./config:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: order
+      POSTGRES_USER: met
+      POSTGRES_PASSWORD: met
+      POSTGRES_ADDITIONAL_DATABASES: "inventory, payment"
+    ports:
+      - "5433:5432"
+
+  # inventory-db:
+  #   image: postgres:15.3-alpine3.18
+  #   container_name: inventory-db
+  #   environment:
+  #     POSTGRES_DB: inventory-db
+  #     POSTGRES_USER: met
+  #     POSTGRES_PASSWORD: met
+  #   ports:
+  #     - "5434:5432"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=met
+      - RABBITMQ_DEFAULT_PASS=met
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq_net
+    profiles:
+      - rabbit
+
+networks:
+  rabbitmq_net:
+    driver: bridge
