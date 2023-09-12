@@ -21,5 +21,6 @@ public interface OrderMapper {
   @Mapping(target = "itemId", source = "id.itemId")
   OrderItem fromEntity(OrderItemEntity orderItemEntity);
 
+  @Mapping(target = "orderId", source = "id")
   OrderCreatedEvent toOrderCreatedEvent(Order order);
 }

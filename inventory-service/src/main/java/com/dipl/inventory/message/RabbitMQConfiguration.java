@@ -1,4 +1,4 @@
-package com.dipl.order.message;
+package com.dipl.inventory.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -11,10 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfiguration {
 
-  public static final String ORDER_CREATED_QUEUE = "order-created-queue";
-  public static final String INVENTORY_UPDATED_QUEUE = "inventory-updated-queue";
-  public static final String CREATE_PAYMENT_QUEUE = "create-payment-queue";
-  public static final String PAYMENT_COMPLETED_QUEUE = "payment-completed-queue";
 
   @Bean
   public RabbitTemplate rabbitTemplate(

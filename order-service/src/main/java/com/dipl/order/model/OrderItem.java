@@ -10,4 +10,7 @@ public class OrderItem {
   private Long orderId;
   private Long itemId;
   private Integer quantity;
+  private Double pricePerUnit;
+  private Double totalPrice;
+
 }

@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5433/order-db}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5433/order}
     username: ${POSTGRES_USER:met}
     password: ${POSTGRES_PASSWORD:met}
   jpa:

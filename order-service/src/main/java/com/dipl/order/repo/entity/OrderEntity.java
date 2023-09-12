@@ -2,6 +2,7 @@ package com.dipl.order.repo.entity;
 
 import com.dipl.order.api.dto.OrderItemDto;
 import com.dipl.order.enums.OrderStatus;
+import com.dipl.order.model.Item;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,10 +59,16 @@ public class OrderEntity {
   @LastModifiedDate
   private LocalDateTime updatedAt;
 
-  public void addItems(List<OrderItemDto> items) {
+  public void addItems(List<OrderItemDto> items, List<Item> availableItems) {
 
     this.items = items.stream()
-        .map(item -> new OrderItemEntity(this, item.id(), item.quantity()))
+        .map(item -> {
+          var availableItem = availableItems.stream()
+              .filter(item2 -> item2.getId().equals(item.id()))
+              .findFirst()
+              .orElseThrow(() -> new RuntimeException("NOT FOUND"));
+          return new OrderItemEntity(this, item.id(), item.quantity(), availableItem.getPrice());
+        })
         .toList();
   }
 }

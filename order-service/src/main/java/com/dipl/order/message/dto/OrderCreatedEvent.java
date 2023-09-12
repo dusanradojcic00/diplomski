@@ -4,7 +4,7 @@ import com.dipl.order.model.OrderItem;
 import java.util.List;
 
 public record OrderCreatedEvent(
-    Long id,
+    Long orderId,
     Long customerId,
     List<OrderItem> items
 ) {

@@ -30,9 +30,19 @@ public class OrderItemEntity {
   @Column(name = "quantity")
   private Integer quantity;
 
-  public OrderItemEntity(OrderEntity orderEntity, Long itemId, Integer quantity) {
-    this.order = orderEntity;
+  @Column(name = "price_per_unit")
+  private Double pricePerUnit;
+
+  @Column(name = "total_price")
+  private Double totalPrice;
+
+  public OrderItemEntity(OrderEntity orderEntity, Long itemId, Integer quantity,
+      Double pricePerUnit) {
+
     this.id = new OrderItemId(orderEntity.getId(), itemId);
+    this.order = orderEntity;
     this.quantity = quantity;
+    this.pricePerUnit = pricePerUnit;
+    this.totalPrice = quantity * pricePerUnit;
   }
 }

@@ -15,4 +15,11 @@ public class Order {
   private Long customerId;
 
   private List<OrderItem> items;
+
+  public Double calculateTotal() {
+
+    return items.stream()
+        .map(OrderItem::getTotalPrice)
+        .reduce(0.0, Double::sum);
+  }
 }

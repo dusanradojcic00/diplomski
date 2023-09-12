@@ -23,12 +23,13 @@ repositories {
 
 dependencies {
 	//Spring
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	//DB
-	implementation 'org.flywaydb:flyway-core'
-	runtimeOnly 'org.postgresql:postgresql'
+	//	implementation 'org.flywaydb:flyway-core'
+	//	runtimeOnly 'org.postgresql:postgresql'
 
 	//Mapstruct
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'

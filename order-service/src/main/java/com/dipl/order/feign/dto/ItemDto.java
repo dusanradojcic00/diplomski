@@ -1,4 +1,4 @@
-package com.dipl.inventory.api.dto;
+package com.dipl.order.feign.dto;
 
 public record ItemDto(
     Long id,
@@ -7,3 +7,4 @@ public record ItemDto(
     Double price
 ) {
 }
+

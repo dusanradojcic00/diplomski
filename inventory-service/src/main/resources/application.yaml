@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5434/inventory-db}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5433/inventory}
     username: ${POSTGRES_USER:met}
     password: ${POSTGRES_PASSWORD:met}
   jpa:

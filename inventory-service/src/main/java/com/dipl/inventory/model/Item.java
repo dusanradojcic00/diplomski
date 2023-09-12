@@ -12,4 +12,7 @@ public class Item {
   private Integer quantity;
   private Double price;
 
+  public void decrease(Integer quantity) {
+    this.quantity = this.quantity - quantity;
+  }
 }
