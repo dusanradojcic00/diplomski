@@ -27,3 +27,27 @@ spring:
     port: 5672
     username: met
     password: met
+
+resilience4j:
+  retry:
+    instances:
+      inventory:
+        maxAttempts: 3
+        waitDuration: 3s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
+
+  circuitbreaker:
+    instances:
+      inventory:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 20
+        permittedNumberOfCallsInHalfOpenState: 5
+        waitDurationInOpenState: 5s
+
