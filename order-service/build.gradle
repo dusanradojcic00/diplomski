@@ -29,6 +29,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
 
+    //Jobrunr
+    implementation 'org.jobrunr:jobrunr-spring-boot-starter:5.3.3'
+
     //DB
     implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.postgresql:postgresql'

@@ -13,7 +13,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
   @Override
-  public void createPayment(Long userId, Double price) {
+  public void createPayment(Long orderId, Long userId, Double price) {
     client.createPayment(new CreatePaymentRequest(userId, price));
   }
 }

@@ -12,6 +12,8 @@ import com.dipl.order.repo.OrderRepo;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jobrunr.jobs.annotations.Job;
+import org.jobrunr.spring.annotations.Recurring;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,14 +39,14 @@ public class OrderService {
 
     var orderEntity = orderMapper.toEntity(request);
     orderEntity.addItems(request.items(), availableItems);
-    orderEntity.setStatus(OrderStatus.PROCESSING);
+    orderEntity.setStatus(OrderStatus.PAID);
 
     var order = orderMapper.fromEntity(repo.save(orderEntity));
 
     inventoryService.decreaseQuantity(orderEntity.getId(), request.items());
 
     //Initiate payment
-    paymentService.createPayment(request.customerId(), order.calculateTotal());
+    paymentService.createPayment(order.getId(), request.customerId(), order.calculateTotal());
 
     log.info("Created order with id '{}'", order.getId());
     return order;
@@ -100,7 +102,7 @@ public class OrderService {
   }
 
   @Transactional
-  public void completeOrder(Long orderId){
+  public void completeOrder(Long orderId) {
     log.info("Completing async orderId '{}'", orderId);
 
     var orderEntity = repo.findById(orderId)
@@ -108,4 +110,25 @@ public class OrderService {
 
     orderEntity.setStatus(OrderStatus.PAID);
   }
+
+  @Transactional
+  @Job(name = "Retry payments")
+  @Recurring(id = "retry-payments", cron = "*/10 * * * *")
+  public void retryPayment() {
+    var orders = repo.findByStatus(OrderStatus.AWAITING_PAYMENT);
+
+    orders.forEach(orderEntity -> {
+      var order = orderMapper.fromEntity(orderEntity);
+
+      try {
+        paymentService.createPayment(order.getId(), order.getCustomerId(), order.calculateTotal());
+        orderEntity.setStatus(OrderStatus.PAID);
+      } catch (Exception ex) {
+        orderEntity.setStatus(OrderStatus.CANCELED);
+      }
+    });
+
+    repo.saveAll(orders);
+  }
+
 }
